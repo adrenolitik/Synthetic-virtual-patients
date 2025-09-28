@@ -1,0 +1,28 @@
+{
+  "name": "synthetic-patients",
+  "version": "1.0.0",
+  "description": "Synthetic Patients Generator - A web application for generating synthetic patient data",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000 --host=0.0.0.0 --open=false --watch=.",
+    "serve": "live-server --port=3000 --host=0.0.0.0 --open=false",
+    "build": "echo 'Build step - currently static files'",
+    "test": "echo 'Tests will be added here'",
+    "python-serve": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "start": "npm run serve"
+  },
+  "keywords": [
+    "synthetic-data",
+    "patients",
+    "healthcare",
+    "generator",
+    "web-app"
+  ],
+  "author": "Development Team",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {}
+}

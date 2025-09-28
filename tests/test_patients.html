@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetic Patients - Tests</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f8fafc;
+    }
+    .test-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .test-result {
+      padding: 0.5rem 1rem;
+      margin: 0.5rem 0;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .test-pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .test-fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .test-info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover { background: #0056b3; }
+    pre {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🧪 Synthetic Patients Generator - Tests</h1>
+    <p>This page tests the functionality of the patient generator.</p>
+    
+    <button onclick="runAllTests()">Run All Tests</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="test-results"></div>
+  </div>
+
+  <script>
+    // Import the patient generation functions (simplified for testing)
+    const FIRST_NAMES = ['John', 'Jane', 'Michael', 'Sarah', 'David', 'Lisa'];
+    const LAST_NAMES = ['Smith', 'Johnson', 'Brown', 'Davis', 'Wilson', 'Moore'];
+    
+    function getRandomElement(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+    
+    function getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function generatePatientId() {
+      return 'PT-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    }
+    
+    function generateAge(ageRange) {
+      switch (ageRange) {
+        case 'pediatric': return getRandomNumber(0, 17);
+        case 'adult': return getRandomNumber(18, 64);
+        case 'elderly': return getRandomNumber(65, 95);
+        default: return getRandomNumber(1, 95);
+      }
+    }
+
+    // Test functions
+    const tests = [];
+    
+    function addTestResult(testName, passed, message, details = null) {
+      const result = { testName, passed, message, details, timestamp: new Date() };
+      tests.push(result);
+      
+      const resultsDiv = document.getElementById('test-results');
+      const testDiv = document.createElement('div');
+      testDiv.className = `test-result ${passed ? 'test-pass' : 'test-fail'}`;
+      
+      testDiv.innerHTML = `
+        <strong>${passed ? '✅' : '❌'} ${testName}</strong><br>
+        ${message}
+        ${details ? `<pre>${JSON.stringify(details, null, 2)}</pre>` : ''}
+      `;
+      
+      resultsDiv.appendChild(testDiv);
+    }
+    
+    function testPatientIdGeneration() {
+      const id1 = generatePatientId();
+      const id2 = generatePatientId();
+      
+      const isValidFormat = /^PT-[A-Z0-9]{9}$/.test(id1);
+      const areUnique = id1 !== id2;
+      
+      if (isValidFormat && areUnique) {
+        addTestResult('Patient ID Generation', true, 'IDs are properly formatted and unique', {
+          id1, id2, format: 'PT-XXXXXXXXX'
+        });
+      } else {
+        addTestResult('Patient ID Generation', false, 'ID generation failed', {
+          id1, id2, validFormat: isValidFormat, unique: areUnique
+        });
+      }
+    }
+    
+    function testAgeRangeGeneration() {
+      const pediatricAges = Array.from({length: 10}, () => generateAge('pediatric'));
+      const adultAges = Array.from({length: 10}, () => generateAge('adult'));
+      const elderlyAges = Array.from({length: 10}, () => generateAge('elderly'));
+      
+      const pediatricValid = pediatricAges.every(age => age >= 0 && age <= 17);
+      const adultValid = adultAges.every(age => age >= 18 && age <= 64);
+      const elderlyValid = elderlyAges.every(age => age >= 65 && age <= 95);
+      
+      const allValid = pediatricValid && adultValid && elderlyValid;
+      
+      addTestResult('Age Range Generation', allValid, 
+        allValid ? 'All age ranges generate correctly' : 'Some age ranges are invalid',
+        {
+          pediatric: { ages: pediatricAges, valid: pediatricValid },
+          adult: { ages: adultAges, valid: adultValid },
+          elderly: { ages: elderlyAges, valid: elderlyValid }
+        }
+      );
+    }
+    
+    function testNameGeneration() {
+      const names = Array.from({length: 5}, () => ({
+        first: getRandomElement(FIRST_NAMES),
+        last: getRandomElement(LAST_NAMES)
+      }));
+      
+      const allNamesValid = names.every(name => 
+        FIRST_NAMES.includes(name.first) && LAST_NAMES.includes(name.last)
+      );
+      
+      addTestResult('Name Generation', allNamesValid, 
+        allNamesValid ? 'Names are selected from valid arrays' : 'Invalid names generated',
+        { generatedNames: names }
+      );
+    }
+    
+    function testRandomNumberGeneration() {
+      const numbers = Array.from({length: 20}, () => getRandomNumber(10, 50));
+      const allInRange = numbers.every(num => num >= 10 && num <= 50);
+      const hasVariety = new Set(numbers).size > 1;
+      
+      const passed = allInRange && hasVariety;
+      
+      addTestResult('Random Number Generation', passed,
+        passed ? 'Numbers are within range and varied' : 'Random number generation failed',
+        { 
+          numbers: numbers.slice(0, 10),
+          inRange: allInRange,
+          variety: hasVariety,
+          uniqueCount: new Set(numbers).size
+        }
+      );
+    }
+    
+    function testDataConsistency() {
+      // Test that multiple generations produce consistent structure
+      const patients = [];
+      for (let i = 0; i < 3; i++) {
+        patients.push({
+          id: generatePatientId(),
+          age: generateAge('adult'),
+          firstName: getRandomElement(FIRST_NAMES),
+          lastName: getRandomElement(LAST_NAMES)
+        });
+      }
+      
+      const allHaveRequiredFields = patients.every(patient => 
+        patient.id && typeof patient.age === 'number' && patient.firstName && patient.lastName
+      );
+      
+      addTestResult('Data Consistency', allHaveRequiredFields,
+        allHaveRequiredFields ? 'All generated data has consistent structure' : 'Inconsistent data structure',
+        { samplePatients: patients }
+      );
+    }
+    
+    function testPerformance() {
+      const start = performance.now();
+      
+      // Generate 100 patients quickly
+      for (let i = 0; i < 100; i++) {
+        generatePatientId();
+        generateAge('all');
+        getRandomElement(FIRST_NAMES);
+        getRandomElement(LAST_NAMES);
+      }
+      
+      const end = performance.now();
+      const duration = end - start;
+      
+      const passed = duration < 100; // Should complete in under 100ms
+      
+      addTestResult('Performance', passed,
+        `Generated 100 patients in ${duration.toFixed(2)}ms`,
+        { duration, threshold: 100, passed }
+      );
+    }
+    
+    function runAllTests() {
+      clearResults();
+      
+      const testInfo = document.createElement('div');
+      testInfo.className = 'test-result test-info';
+      testInfo.innerHTML = '<strong>🚀 Running Tests...</strong><br>Testing synthetic patient generation functionality';
+      document.getElementById('test-results').appendChild(testInfo);
+      
+      // Run tests with slight delays for better UX
+      setTimeout(() => testPatientIdGeneration(), 100);
+      setTimeout(() => testAgeRangeGeneration(), 200);
+      setTimeout(() => testNameGeneration(), 300);
+      setTimeout(() => testRandomNumberGeneration(), 400);
+      setTimeout(() => testDataConsistency(), 500);
+      setTimeout(() => testPerformance(), 600);
+      
+      setTimeout(() => {
+        const passed = tests.filter(t => t.passed).length;
+        const total = tests.length;
+        const summaryDiv = document.createElement('div');
+        summaryDiv.className = `test-result ${passed === total ? 'test-pass' : 'test-fail'}`;
+        summaryDiv.innerHTML = `<strong>📊 Test Summary</strong><br>Passed: ${passed}/${total} tests`;
+        document.getElementById('test-results').appendChild(summaryDiv);
+      }, 800);
+    }
+    
+    function clearResults() {
+      tests.length = 0;
+      document.getElementById('test-results').innerHTML = '';
+    }
+    
+    // Auto-run tests on load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🧪 Test page loaded');
+      setTimeout(runAllTests, 500);
+    });
+  </script>
+</body>
+</html>

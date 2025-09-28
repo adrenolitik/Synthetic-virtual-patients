@@ -1,19 +1,76 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>My static Space</title>
-		<link rel="stylesheet" href="style.css" />
-	</head>
-	<body>
-		<div class="card">
-			<h1>Welcome to your static Space!</h1>
-			<p>You can modify this app directly by editing <i>index.html</i> in the Files and versions tab.</p>
-			<p>
-				Also don't forget to check the
-				<a href="https://huggingface.co/docs/hub/spaces" target="_blank">Spaces documentation</a>.
-			</p>
-		</div>
-	</body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Synthetic Patients Generator</title>
+    <meta name="description" content="Generate synthetic patient data for healthcare research and testing" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📉</text></svg>">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <header class="header">
+        <h1>🏥 Synthetic Patients Generator</h1>
+        <p>Generate realistic synthetic patient data for healthcare research and testing</p>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Generator Controls -->
+        <section class="card generator-card">
+          <h2>Generate Patients</h2>
+          <div class="controls">
+            <div class="control-group">
+              <label for="patient-count">Number of Patients:</label>
+              <input type="number" id="patient-count" min="1" max="100" value="5" />
+            </div>
+            <div class="control-group">
+              <label for="age-range">Age Range:</label>
+              <select id="age-range">
+                <option value="all">All Ages</option>
+                <option value="pediatric">Pediatric (0-17)</option>
+                <option value="adult">Adult (18-64)</option>
+                <option value="elderly">Elderly (65+)</option>
+              </select>
+            </div>
+            <button id="generate-btn" class="btn-primary">Generate Patients</button>
+          </div>
+        </section>
+
+        <!-- Results Display -->
+        <section class="card results-card" style="display: none;">
+          <h2>Generated Patients</h2>
+          <div id="patients-container"></div>
+          <div class="actions">
+            <button id="export-json-btn" class="btn-secondary">Export as JSON</button>
+            <button id="export-csv-btn" class="btn-secondary">Export as CSV</button>
+          </div>
+        </section>
+
+        <!-- Development Info -->
+        <section class="card info-card">
+          <h2>🚀 Development Mode</h2>
+          <p>This application is running in development mode with live reload enabled.</p>
+          <ul>
+            <li>Edit files and see changes automatically</li>
+            <li>Check the browser console for debugging</li>
+            <li>Use the network tab to monitor API calls</li>
+          </ul>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2024 Synthetic Patients Generator | 
+          <a href="https://github.com" target="_blank">GitHub</a> | 
+          <a href="https://huggingface.co/docs/hub/spaces" target="_blank">HF Spaces</a>
+        </p>
+      </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+  </body>
 </html>
