@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Synthetic Patients - Medical Education Simulator</title>
+    <meta name="description" content="Advanced multimodal AI simulation for difficult medical conversations" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="simulation-styles.css" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+  </head>
+  <body>
+    <div id="simulation-app">
+      <!-- Header -->
+      <header class="sim-header">
+        <div class="header-content">
+          <h1>🏥 Advanced Synthetic Patients</h1>
+          <p>Multimodal AI Simulation for Medical Education</p>
+          <div class="header-controls">
+            <button id="back-to-main" class="btn-secondary">← Back to Main</button>
+            <button id="simulation-help" class="btn-secondary">Help</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Simulation Interface -->
+      <main class="simulation-main">
+        
+        <!-- Patient Selection Phase -->
+        <section id="patient-selection" class="sim-section">
+          <div class="selection-container">
+            <h2>📋 Select Learning Scenario</h2>
+            <div class="scenario-grid">
+              <div class="scenario-card" data-scenario="cancer-diagnosis">
+                <h3>🎗️ Cancer Diagnosis</h3>
+                <p><strong>Patient:</strong> Ahmed Al-Farsi, 68</p>
+                <p><strong>Scenario:</strong> Glioblastoma diagnosis discussion</p>
+                <div class="difficulty high">High Difficulty</div>
+                <ul class="objectives">
+                  <li>Communicate terminal diagnosis with empathy</li>
+                  <li>Discuss goals of care preferences</li>
+                  <li>Address cultural considerations</li>
+                </ul>
+                <button class="select-patient-btn" data-patient="ahmed-al-farsi">Start Simulation</button>
+              </div>
+
+              <div class="scenario-card" data-scenario="end-of-life">
+                <h3>🕊️ End-of-Life Care</h3>
+                <p><strong>Patient:</strong> Maria Santos, 74</p>
+                <p><strong>Scenario:</strong> Advanced heart failure goals of care</p>
+                <div class="difficulty high">High Difficulty</div>
+                <ul class="objectives">
+                  <li>Navigate family dynamics</li>
+                  <li>Discuss comfort care options</li>
+                  <li>Address spiritual concerns</li>
+                </ul>
+                <button class="select-patient-btn" data-patient="maria-santos">Start Simulation</button>
+              </div>
+
+              <div class="scenario-card" data-scenario="mental-health">
+                <h3>🧠 Mental Health Assessment</h3>
+                <p><strong>Patient:</strong> James Wilson, 42</p>
+                <p><strong>Scenario:</strong> Depression screening and treatment discussion</p>
+                <div class="difficulty medium">Medium Difficulty</div>
+                <ul class="objectives">
+                  <li>Screen for mental health conditions</li>
+                  <li>Address stigma concerns</li>
+                  <li>Provide supportive counseling</li>
+                </ul>
+                <button class="select-patient-btn" data-patient="james-wilson">Start Simulation</button>
+              </div>
+
+              <div class="scenario-card" data-scenario="substance-abuse">
+                <h3>🍷 Substance Use Discussion</h3>
+                <p><strong>Patient:</strong> Jennifer Chen, 28</p>
+                <p><strong>Scenario:</strong> Alcohol use disorder assessment</p>
+                <div class="difficulty medium">Medium Difficulty</div>
+                <ul class="objectives">
+                  <li>Conduct non-judgmental screening</li>
+                  <li>Motivate behavior change</li>
+                  <li>Address professional concerns</li>
+                </ul>
+                <button class="select-patient-btn" data-patient="jennifer-chen">Start Simulation</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Active Simulation Interface -->
+        <section id="active-simulation" class="sim-section" style="display: none;">
+          <div class="simulation-layout">
+            
+            <!-- Left Panel: Patient Video and Information -->
+            <div class="left-panel">
+              <div class="video-container">
+                <div class="patient-video">
+                  <div id="patient-avatar" class="avatar-placeholder">
+                    <div class="avatar-image">
+                      <img id="patient-photo" src="" alt="Patient" />
+                    </div>
+                    <div class="video-controls">
+                      <button id="mute-patient" class="control-btn">🔊</button>
+                      <button id="video-quality" class="control-btn">HD</button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="patient-info-card">
+                  <h3 id="patient-name">Patient Information</h3>
+                  <div class="info-grid">
+                    <span><strong>Age:</strong> <span id="patient-age"></span></span>
+                    <span><strong>Diagnosis:</strong> <span id="patient-diagnosis"></span></span>
+                    <span><strong>Scenario:</strong> <span id="current-scenario"></span></span>
+                    <span><strong>Emotional State:</strong> <span id="patient-emotion"></span></span>
+                  </div>
+                  <div class="cultural-context">
+                    <h4>Cultural Context</h4>
+                    <p id="cultural-factors"></p>
+                  </div>
+                  <div class="primary-concerns">
+                    <h4>Primary Concerns</h4>
+                    <ul id="concerns-list"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Panel: Conversation Interface -->
+            <div class="right-panel">
+              
+              <!-- Learning Objectives -->
+              <div class="objectives-panel">
+                <h3>📚 Learning Objectives</h3>
+                <ul id="learning-objectives"></ul>
+              </div>
+
+              <!-- Conversation History -->
+              <div class="conversation-panel">
+                <h3>💬 Conversation</h3>
+                <div id="conversation-history" class="conversation-history"></div>
+              </div>
+
+              <!-- Input Methods -->
+              <div class="input-panel">
+                <div class="input-tabs">
+                  <button class="input-tab active" data-tab="text">✍️ Text</button>
+                  <button class="input-tab" data-tab="voice">🎤 Voice</button>
+                  <button class="input-tab" data-tab="suggested">💡 Suggested</button>
+                </div>
+
+                <!-- Text Input -->
+                <div id="text-input-panel" class="input-method active">
+                  <div class="text-input-container">
+                    <textarea id="provider-input" placeholder="Type your response to the patient..." rows="3"></textarea>
+                    <button id="send-text" class="btn-primary">Send Message</button>
+                  </div>
+                </div>
+
+                <!-- Voice Input (Simulated) -->
+                <div id="voice-input-panel" class="input-method">
+                  <div class="voice-input-container">
+                    <button id="voice-record" class="voice-btn">
+                      <span class="voice-icon">🎤</span>
+                      <span class="voice-text">Hold to Record</span>
+                    </button>
+                    <div class="voice-visualization">
+                      <div class="sound-wave"></div>
+                      <div class="sound-wave"></div>
+                      <div class="sound-wave"></div>
+                      <div class="sound-wave"></div>
+                    </div>
+                    <p class="voice-instructions">Hold button and speak your question or response</p>
+                  </div>
+                </div>
+
+                <!-- Suggested Responses -->
+                <div id="suggested-input-panel" class="input-method">
+                  <div class="suggested-container">
+                    <h4>Suggested Responses</h4>
+                    <div id="suggested-responses" class="suggested-responses"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Real-time Feedback -->
+              <div class="feedback-panel">
+                <h3>📊 Real-time Feedback</h3>
+                <div id="conversation-feedback" class="feedback-content">
+                  <div class="feedback-category">
+                    <h4>Communication Style</h4>
+                    <div id="communication-metrics" class="metrics">
+                      <span class="metric">Empathy: <span id="empathy-score">--</span></span>
+                      <span class="metric">Clarity: <span id="clarity-score">--</span></span>
+                      <span class="metric">Appropriateness: <span id="appropriateness-score">--</span></span>
+                    </div>
+                  </div>
+                  <div class="feedback-suggestions">
+                    <h4>💡 Suggestions</h4>
+                    <ul id="feedback-suggestions"></ul>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Simulation Controls -->
+          <div class="simulation-controls">
+            <button id="pause-sim" class="control-btn">⏸️ Pause</button>
+            <button id="restart-sim" class="control-btn">🔄 Restart</button>
+            <button id="end-sim" class="control-btn">⏹️ End Simulation</button>
+          </div>
+        </section>
+
+        <!-- Simulation Summary -->
+        <section id="simulation-summary" class="sim-section" style="display: none;">
+          <div class="summary-container">
+            <h2>📋 Simulation Summary</h2>
+            
+            <div class="summary-grid">
+              <div class="summary-card">
+                <h3>📊 Performance Metrics</h3>
+                <div id="performance-metrics" class="metrics-display"></div>
+              </div>
+              
+              <div class="summary-card">
+                <h3>🎯 Learning Objectives</h3>
+                <div id="objectives-assessment" class="objectives-display"></div>
+              </div>
+              
+              <div class="summary-card">
+                <h3>💬 Conversation Analysis</h3>
+                <div id="conversation-analysis" class="analysis-display"></div>
+              </div>
+              
+              <div class="summary-card">
+                <h3>📚 Key Learning Points</h3>
+                <div id="learning-points" class="learning-display"></div>
+              </div>
+            </div>
+
+            <div class="summary-actions">
+              <button id="download-summary" class="btn-primary">📥 Download Report</button>
+              <button id="new-simulation" class="btn-secondary">🔄 New Simulation</button>
+              <button id="repeat-scenario" class="btn-secondary">↩️ Repeat Scenario</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Help Modal -->
+      <div id="help-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h2>🆘 Simulation Help</h2>
+          <div class="help-sections">
+            <div class="help-section">
+              <h3>Getting Started</h3>
+              <ul>
+                <li>Select a learning scenario based on your educational goals</li>
+                <li>Each scenario has specific learning objectives and difficulty levels</li>
+                <li>Patients have realistic backgrounds, personalities, and cultural contexts</li>
+              </ul>
+            </div>
+            <div class="help-section">
+              <h3>During the Simulation</h3>
+              <ul>
+                <li>Use text or voice input to communicate with the patient</li>
+                <li>Pay attention to the patient's emotional state and cultural factors</li>
+                <li>Monitor real-time feedback to improve your communication</li>
+                <li>Use suggested responses if you need guidance</li>
+              </ul>
+            </div>
+            <div class="help-section">
+              <h3>Communication Tips</h3>
+              <ul>
+                <li>Use empathetic language and acknowledge emotions</li>
+                <li>Ask open-ended questions to explore patient concerns</li>
+                <li>Be mindful of cultural and religious considerations</li>
+                <li>Allow for silence and processing time</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="advanced-patients.js"></script>
+    <script src="simulation.js"></script>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 ---
-title: Synthetic Patients Generator
+title: Synthetic Patients AI - Medical Education Platform
 emoji: 🏥
 colorFrom: blue
 colorTo: purple
@@ -8,25 +8,50 @@ pinned: false
 license: mit
 ---
 
-# 🏥 Synthetic Patients Generator
+# 🏥 Synthetic Patients AI - Advanced Medical Education Platform
 
-A web application for generating realistic synthetic patient data for healthcare research, testing, and development purposes.
+**An advanced multimodal AI platform for simulating difficult medical conversations, based on cutting-edge research in medical education.**
 
-## ✨ Features
+> **Research Foundation:** This implementation is based on the paper *"Synthetic Patients: Simulating Difficult Conversations with Multimodal Generative AI for Medical Education"* by Simon N. Chu, MD, MS and Alex J. Goodell, MD, MS.
 
-- 👥 **Generate Realistic Patients**: Create synthetic patient records with comprehensive medical profiles
-- 🎯 **Age Range Filtering**: Generate pediatric (0-17), adult (18-64), elderly (65+), or all age patients
-- 📊 **Batch Generation**: Create 1-100 patients at once
-- 💾 **Multiple Export Formats**: Download data as JSON or CSV
-- 📱 **Responsive Design**: Works on desktop, tablet, and mobile devices
-- 🔄 **Live Development**: Real-time updates during development
+## 🎯 Overview
+
+This platform revolutionizes medical education by providing realistic, interactive AI-powered patient simulations for training healthcare providers in difficult conversations including end-of-life care, cancer diagnosis delivery, mental health assessments, and more.
+
+## ✨ Key Features
+
+### 🎭 Advanced Patient Simulations
+- **Realistic AI Patients**: Four detailed patient personas with comprehensive medical histories, cultural backgrounds, and psychological profiles
+- **Difficult Conversation Scenarios**: End-of-life discussions, cancer diagnosis, mental health assessments, substance use counseling
+- **Cultural Diversity**: Patients from diverse ethnic backgrounds with authentic belief systems and communication styles
+- **Psychological Realism**: Each patient has unique personality traits, coping mechanisms, and emotional responses
+
+### 🏥 Medical Education Framework
+- **Evidence-Based Learning Objectives**: Structured curriculum based on medical education best practices
+- **Real-Time Feedback**: AI-powered analysis of communication skills including empathy, clarity, and appropriateness
+- **Performance Analytics**: Detailed tracking of learning progress and skill development
+- **Educational Assessment**: Comprehensive evaluation system for medical training programs
+
+### 🤖 Advanced AI Integration
+- **Multimodal Conversation Engine**: Text-based conversations with planned voice and video integration
+- **Natural Language Processing**: Sophisticated understanding of medical terminology and patient concerns
+- **Contextual Responses**: Patient responses adapt based on provider communication style and approach
+- **Educational Intelligence**: AI system designed specifically for medical education outcomes
+
+### 💻 Modern Platform Features
+- **Responsive Web Interface**: Works seamlessly on desktop, tablet, and mobile devices
+- **Real-Time Simulation**: Interactive patient conversations with immediate feedback
+- **Session Recording**: Complete conversation logs for review and assessment
+- **Export Capabilities**: Download session data for curriculum integration
+- **Containerized Deployment**: Docker-ready for easy institutional deployment
 
 ## 🚀 Quick Start
 
-### Online Demo
-Visit the [Hugging Face Space](https://huggingface.co/spaces/alexgoodell/synthetic-patients) to try it immediately.
+### 🌐 Online Demo
+- **Main Platform**: [Hugging Face Space](https://huggingface.co/spaces/alexgoodell/synthetic-patients)
+- **Advanced Simulation**: [Direct Simulation Interface](https://huggingface.co/spaces/alexgoodell/synthetic-patients/simulation.html)
 
-### Local Development
+### 💻 Local Development
 ```bash
 # Clone the repository
 git clone https://huggingface.co/spaces/alexgoodell/synthetic-patients
@@ -35,11 +60,27 @@ cd synthetic-patients
 # Install dependencies
 npm install
 
-# Start development server
-npm run serve
+# Start development server (with live reload)
+npm run dev
+
+# Or start production server
+npm start
 ```
 
-Open your browser to `http://localhost:3000` to see the application.
+**Access Points:**
+- Main Platform: `http://localhost:3000`
+- Advanced Simulation: `http://localhost:3000/simulation.html`
+- Test Suite: `http://localhost:3000/tests/test_patients.html`
+
+### 🐳 Docker Deployment
+```bash
+# Quick start with Docker
+docker build -t synthetic-patients-ai .
+docker run -p 3000:3000 synthetic-patients-ai
+
+# Full stack with Docker Compose
+docker-compose up -d
+```
 
 ## 📋 Generated Data
 

@@ -1,28 +1,54 @@
 {
-  "name": "synthetic-patients",
-  "version": "1.0.0",
-  "description": "Synthetic Patients Generator - A web application for generating synthetic patient data",
-  "main": "index.html",
+  "name": "synthetic-patients-ai",
+  "version": "2.0.0",
+  "description": "Synthetic Patients AI - Multimodal AI platform for simulating difficult medical conversations",
+  "main": "server.js",
   "scripts": {
-    "dev": "live-server --port=3000 --host=0.0.0.0 --open=false --watch=.",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server.js",
+    "client": "live-server --port=3000 --host=0.0.0.0 --open=false --watch=public",
     "serve": "live-server --port=3000 --host=0.0.0.0 --open=false",
-    "build": "echo 'Build step - currently static files'",
-    "test": "echo 'Tests will be added here'",
+    "build": "npm run build:client",
+    "build:client": "echo 'Building client application'",
+    "test": "jest",
     "python-serve": "python3 -m http.server 8000 --bind 0.0.0.0",
-    "start": "npm run serve"
+    "start": "node server.js",
+    "docker:build": "docker build -t synthetic-patients-ai .",
+    "docker:run": "docker run -p 3000:3000 synthetic-patients-ai",
+    "docker:compose": "docker-compose up -d",
+    "docker:stop": "docker-compose down"
   },
   "keywords": [
-    "synthetic-data",
-    "patients",
-    "healthcare",
-    "generator",
-    "web-app"
+    "synthetic-patients",
+    "medical-education",
+    "ai-avatars",
+    "difficult-conversations",
+    "multimodal-ai",
+    "medical-simulation",
+    "healthcare-training"
   ],
-  "author": "Development Team",
+  "author": "Medical AI Education Team",
   "license": "MIT",
   "devDependencies": {
     "live-server": "^1.2.2",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.2",
+    "jest": "^29.7.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "socket.io": "^4.7.5",
+    "multer": "^1.4.5",
+    "uuid": "^9.0.1",
+    "node-cron": "^3.0.3",
+    "compression": "^1.7.4"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  }
 }

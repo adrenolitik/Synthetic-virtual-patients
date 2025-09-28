@@ -3,74 +3,402 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Synthetic Patients Generator</title>
-    <meta name="description" content="Generate synthetic patient data for healthcare research and testing" />
+    <title>Synthetic Patients AI - Medical Education Platform</title>
+    <meta name="description" content="Multimodal AI platform for simulating difficult medical conversations with synthetic patients" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📉</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+    
+    <!-- Web Audio API and WebRTC Support -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   </head>
   <body>
     <div id="app">
-      <!-- Header -->
-      <header class="header">
-        <h1>🏥 Synthetic Patients Generator</h1>
-        <p>Generate realistic synthetic patient data for healthcare research and testing</p>
+      <!-- Navigation Header -->
+      <header class="navigation-header">
+        <div class="nav-container">
+          <div class="nav-brand">
+            <h1>🏥 Synthetic Patients AI</h1>
+            <span class="nav-subtitle">Medical Education Platform</span>
+          </div>
+          <nav class="nav-menu">
+            <button class="nav-item active" data-section="scenarios">Patient Scenarios</button>
+            <button class="nav-item" data-section="consultation">Video Consultation</button>
+            <button class="nav-item" data-section="generator">Data Generator</button>
+            <button class="nav-item" data-section="analytics">Learning Analytics</button>
+          </nav>
+        </div>
       </header>
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Generator Controls -->
-        <section class="card generator-card">
-          <h2>Generate Patients</h2>
-          <div class="controls">
-            <div class="control-group">
-              <label for="patient-count">Number of Patients:</label>
-              <input type="number" id="patient-count" min="1" max="100" value="5" />
+      <!-- Main Application Content -->
+      <main id="main-content" class="main-content">
+        
+        <!-- Patient Scenarios Section -->
+        <section id="scenarios-section" class="app-section active">
+          <div class="section-header">
+            <h2>🎭 Patient Scenarios</h2>
+            <p>Choose a synthetic patient for difficult conversation practice</p>
+            <div class="header-actions">
+              <a href="simulation.html" class="btn-primary advanced-sim-btn">🎭 Advanced Simulation Mode</a>
             </div>
-            <div class="control-group">
-              <label for="age-range">Age Range:</label>
-              <select id="age-range">
-                <option value="all">All Ages</option>
-                <option value="pediatric">Pediatric (0-17)</option>
-                <option value="adult">Adult (18-64)</option>
-                <option value="elderly">Elderly (65+)</option>
-              </select>
+          </div>
+
+          <div class="scenarios-grid">
+            <!-- Ahmed Al-Farsi - End of Life Discussion -->
+            <div class="scenario-card" data-patient="ahmed-al-farsi">
+              <div class="scenario-image">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect fill='%234a90e2' width='200' height='200'/><text x='50%' y='50%' font-size='80' text-anchor='middle' dominant-baseline='middle' fill='white'>👨🏽‍🏫</text></svg>" alt="Ahmed Al-Farsi" />
+              </div>
+              <div class="scenario-info">
+                <h3>Ahmed Al-Farsi</h3>
+                <div class="scenario-details">
+                  <span class="detail-badge age">68 years old</span>
+                  <span class="detail-badge diagnosis">Glioblastoma</span>
+                  <span class="detail-badge difficulty high">High Difficulty</span>
+                </div>
+                <p class="scenario-description">
+                  Retired school principal from Oman facing brain surgery. Practice discussing 
+                  surgical risks, cultural considerations, and end-of-life planning.
+                </p>
+                <div class="scenario-objectives">
+                  <strong>Learning Objectives:</strong>
+                  <ul>
+                    <li>Cultural sensitivity in medical care</li>
+                    <li>End-of-life discussion skills</li>
+                    <li>Surgical risk communication</li>
+                  </ul>
+                </div>
+                <button class="btn-primary scenario-start">Start Consultation</button>
+              </div>
             </div>
-            <button id="generate-btn" class="btn-primary">Generate Patients</button>
+
+            <!-- Sarah Martinez - Cancer Diagnosis -->
+            <div class="scenario-card" data-patient="sarah-martinez">
+              <div class="scenario-image">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect fill='%23e74c3c' width='200' height='200'/><text x='50%' y='50%' font-size='80' text-anchor='middle' dominant-baseline='middle' fill='white'>👩🏽‍🎓</text></svg>" alt="Sarah Martinez" />
+              </div>
+              <div class="scenario-info">
+                <h3>Sarah Martinez</h3>
+                <div class="scenario-details">
+                  <span class="detail-badge age">24 years old</span>
+                  <span class="detail-badge diagnosis">Acute Leukemia</span>
+                  <span class="detail-badge difficulty high">High Difficulty</span>
+                </div>
+                <p class="scenario-description">
+                  PhD student diagnosed with leukemia days before her wedding. 
+                  Practice delivering difficult diagnoses to young adults.
+                </p>
+                <div class="scenario-objectives">
+                  <strong>Learning Objectives:</strong>
+                  <ul>
+                    <li>Breaking bad news to young patients</li>
+                    <li>Fertility preservation discussions</li>
+                    <li>Supporting life transitions during illness</li>
+                  </ul>
+                </div>
+                <button class="btn-primary scenario-start">Start Consultation</button>
+              </div>
+            </div>
+
+            <!-- Robert Thompson - Goals of Care -->
+            <div class="scenario-card" data-patient="robert-thompson">
+              <div class="scenario-image">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect fill='%2334495e' width='200' height='200'/><text x='50%' y='50%' font-size='80' text-anchor='middle' dominant-baseline='middle' fill='white'>👨🏻‍🔧</text></svg>" alt="Robert Thompson" />
+              </div>
+              <div class="scenario-info">
+                <h3>Robert Thompson</h3>
+                <div class="scenario-details">
+                  <span class="detail-badge age">82 years old</span>
+                  <span class="detail-badge diagnosis">End-stage Heart Failure</span>
+                  <span class="detail-badge difficulty high">High Difficulty</span>
+                </div>
+                <p class="scenario-description">
+                  Retired engineer with family conflicts about care decisions. 
+                  Navigate complex family dynamics and goals of care.
+                </p>
+                <div class="scenario-objectives">
+                  <strong>Learning Objectives:</strong>
+                  <ul>
+                    <li>Goals of care conversations</li>
+                    <li>Managing family disagreements</li>
+                    <li>Advance directive discussions</li>
+                  </ul>
+                </div>
+                <button class="btn-primary scenario-start">Start Consultation</button>
+              </div>
+            </div>
+
+            <!-- Maya Patel - Pediatric Transition -->
+            <div class="scenario-card" data-patient="maya-patel">
+              <div class="scenario-image">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect fill='%239b59b6' width='200' height='200'/><text x='50%' y='50%' font-size='80' text-anchor='middle' dominant-baseline='middle' fill='white'>👩🏽‍🎨</text></svg>" alt="Maya Patel" />
+              </div>
+              <div class="scenario-info">
+                <h3>Maya Patel</h3>
+                <div class="scenario-details">
+                  <span class="detail-badge age">16 years old</span>
+                  <span class="detail-badge diagnosis">Cystic Fibrosis</span>
+                  <span class="detail-badge difficulty medium">Medium Difficulty</span>
+                </div>
+                <p class="scenario-description">
+                  Teenage artist with CF transitioning to adult care and considering 
+                  lung transplant. Practice adolescent medicine communication.
+                </p>
+                <div class="scenario-objectives">
+                  <strong>Learning Objectives:</strong>
+                  <ul>
+                    <li>Adolescent autonomy and decision making</li>
+                    <li>Chronic illness management</li>
+                    <li>Transition to adult care</li>
+                  </ul>
+                </div>
+                <button class="btn-primary scenario-start">Start Consultation</button>
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- Results Display -->
-        <section class="card results-card" style="display: none;">
-          <h2>Generated Patients</h2>
-          <div id="patients-container"></div>
-          <div class="actions">
-            <button id="export-json-btn" class="btn-secondary">Export as JSON</button>
-            <button id="export-csv-btn" class="btn-secondary">Export as CSV</button>
+        <!-- Video Consultation Section -->
+        <section id="consultation-section" class="app-section">
+          <div class="consultation-container">
+            
+            <!-- Video Chat Interface -->
+            <div class="video-chat-area">
+              <div class="patient-video-container">
+                <div id="patient-avatar" class="patient-avatar">
+                  <div class="avatar-placeholder">
+                    <div class="avatar-icon">👤</div>
+                    <p>Select a patient to begin consultation</p>
+                  </div>
+                  <video id="patient-video" style="display: none;" autoplay loop muted></video>
+                </div>
+                
+                <!-- Patient Information Panel -->
+                <div class="patient-info-panel">
+                  <div id="patient-details" class="patient-details">
+                    <h3 id="patient-name">No Patient Selected</h3>
+                    <div id="patient-stats" class="patient-stats">
+                      <span id="patient-age"></span>
+                      <span id="patient-diagnosis"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Communication Controls -->
+              <div class="communication-controls">
+                <div class="audio-controls">
+                  <button id="mic-button" class="control-btn mic-btn" disabled>
+                    <span class="mic-icon">🎤</span>
+                    <span class="control-label">Press & Hold to Speak</span>
+                  </button>
+                  <button id="type-button" class="control-btn type-btn" disabled>
+                    <span class="type-icon">⌨️</span>
+                    <span class="control-label">Type Message</span>
+                  </button>
+                </div>
+                
+                <div class="text-input-area" style="display: none;">
+                  <textarea id="message-input" placeholder="Type your message to the patient..."></textarea>
+                  <button id="send-text" class="btn-primary">Send Message</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversation History & Analytics -->
+            <div class="conversation-sidebar">
+              <div class="conversation-header">
+                <h3>📋 Conversation Log</h3>
+                <div class="conversation-controls">
+                  <button id="start-consultation" class="btn-primary" style="display: none;">Start New Consultation</button>
+                  <button id="end-consultation" class="btn-danger" style="display: none;">End Consultation</button>
+                </div>
+              </div>
+              
+              <div id="conversation-log" class="conversation-log">
+                <div class="log-placeholder">
+                  <p>Conversation will appear here once you start speaking with the patient.</p>
+                </div>
+              </div>
+
+              <div class="consultation-stats">
+                <h4>📊 Session Metrics</h4>
+                <div class="stats-grid">
+                  <div class="stat-item">
+                    <span class="stat-label">Duration:</span>
+                    <span id="session-duration" class="stat-value">00:00</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">Exchanges:</span>
+                    <span id="exchange-count" class="stat-value">0</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">Empathy Score:</span>
+                    <span id="empathy-score" class="stat-value">-</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- Development Info -->
-        <section class="card info-card">
-          <h2>🚀 Development Mode</h2>
-          <p>This application is running in development mode with live reload enabled.</p>
-          <ul>
-            <li>Edit files and see changes automatically</li>
-            <li>Check the browser console for debugging</li>
-            <li>Use the network tab to monitor API calls</li>
-          </ul>
+        <!-- Data Generator Section (Original) -->
+        <section id="generator-section" class="app-section">
+          <div class="section-header">
+            <h2>📊 Patient Data Generator</h2>
+            <p>Generate synthetic patient data for research and testing</p>
+          </div>
+
+          <!-- Original generator interface -->
+          <div class="generator-container">
+            <div class="card generator-card">
+              <h3>Generate Synthetic Patient Data</h3>
+              <div class="controls">
+                <div class="control-group">
+                  <label for="patient-count">Number of Patients:</label>
+                  <input type="number" id="patient-count" min="1" max="100" value="5" />
+                </div>
+                <div class="control-group">
+                  <label for="age-range">Age Range:</label>
+                  <select id="age-range">
+                    <option value="all">All Ages</option>
+                    <option value="pediatric">Pediatric (0-17)</option>
+                    <option value="adult">Adult (18-64)</option>
+                    <option value="elderly">Elderly (65+)</option>
+                  </select>
+                </div>
+                <button id="generate-btn" class="btn-primary">Generate Patients</button>
+              </div>
+            </div>
+
+            <div class="card results-card" style="display: none;">
+              <h3>Generated Patients</h3>
+              <div id="patients-container"></div>
+              <div class="actions">
+                <button id="export-json-btn" class="btn-secondary">Export as JSON</button>
+                <button id="export-csv-btn" class="btn-secondary">Export as CSV</button>
+              </div>
+            </div>
+          </div>
         </section>
+
+        <!-- Learning Analytics Section -->
+        <section id="analytics-section" class="app-section">
+          <div class="section-header">
+            <h2>📈 Learning Analytics</h2>
+            <p>Track your progress in difficult conversation skills</p>
+          </div>
+
+          <div class="analytics-dashboard">
+            <div class="analytics-card">
+              <h3>📚 Completed Scenarios</h3>
+              <div class="scenario-progress">
+                <div class="progress-item">
+                  <span>End-of-life discussions</span>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%"></div>
+                  </div>
+                  <span>3/5</span>
+                </div>
+                <div class="progress-item">
+                  <span>Cancer diagnosis delivery</span>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 40%"></div>
+                  </div>
+                  <span>2/5</span>
+                </div>
+                <div class="progress-item">
+                  <span>Pediatric consultations</span>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 20%"></div>
+                  </div>
+                  <span>1/5</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-card">
+              <h3>⭐ Communication Skills</h3>
+              <div class="skills-radar">
+                <div class="skill-item">
+                  <span>Empathy</span>
+                  <div class="skill-rating">
+                    <div class="stars">★★★★☆</div>
+                    <span>4.2/5</span>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <span>Active Listening</span>
+                  <div class="skill-rating">
+                    <div class="stars">★★★★★</div>
+                    <span>4.8/5</span>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <span>Clear Communication</span>
+                  <div class="skill-rating">
+                    <div class="stars">★★★☆☆</div>
+                    <span>3.6/5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-card">
+              <h3>🎯 Recent Sessions</h3>
+              <div class="session-history">
+                <div class="session-item">
+                  <div class="session-info">
+                    <strong>Ahmed Al-Farsi</strong>
+                    <span>End-of-life discussion</span>
+                  </div>
+                  <div class="session-score">
+                    <span class="score good">8.5/10</span>
+                    <span class="date">2 days ago</span>
+                  </div>
+                </div>
+                <div class="session-item">
+                  <div class="session-info">
+                    <strong>Sarah Martinez</strong>
+                    <span>Cancer diagnosis</span>
+                  </div>
+                  <div class="session-score">
+                    <span class="score fair">7.2/10</span>
+                    <span class="date">1 week ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <!-- Footer -->
-      <footer class="footer">
-        <p>&copy; 2024 Synthetic Patients Generator | 
-          <a href="https://github.com" target="_blank">GitHub</a> | 
-          <a href="https://huggingface.co/docs/hub/spaces" target="_blank">HF Spaces</a>
-        </p>
+      <footer class="app-footer">
+        <div class="footer-content">
+          <p>&copy; 2024 Synthetic Patients AI Platform | Medical Education Research</p>
+          <div class="footer-links">
+            <a href="simulation.html" target="_blank">Advanced Simulation</a>
+            <a href="DEVELOPMENT.md" target="_blank">Documentation</a>
+            <a href="#" target="_blank">Research Paper</a>
+            <a href="#" target="_blank">GitHub</a>
+          </div>
+        </div>
       </footer>
+
+      <!-- Status Indicators -->
+      <div id="connection-status" class="status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-text">Connecting...</span>
+      </div>
     </div>
 
-    <!-- JavaScript -->
-    <script src="app.js"></script>
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/patient-profiles.js"></script>
+    <script type="module" src="js/conversation-engine.js"></script>
+    <script type="module" src="js/avatar-manager.js"></script>
+    <script type="module" src="js/audio-processor.js"></script>
+    <script type="module" src="js/analytics-tracker.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>
